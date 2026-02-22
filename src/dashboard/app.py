@@ -75,24 +75,24 @@ st.divider()
 left, right = st.columns(2, gap="large")
 
 with left, st.container(border=True):
-        st.subheader("Tutor Utilization")
+    st.subheader("Tutor Utilization")
 
-        for name, util in util_rows:
-            row_left, row_right = st.columns([1, 3])
-            with row_left:
-                st.write(f"**{name}**")
-                st.caption(f"{util:.0%}")
-            with row_right:
-                st.progress(min(int(util * 100), 100))
+    for name, util in util_rows:
+        row_left, row_right = st.columns([1, 3])
+        with row_left:
+            st.write(f"**{name}**")
+            st.caption(f"{util:.0%}")
+        with row_right:
+            st.progress(min(int(util * 100), 100))
 
 with right, st.container(border=True):
-        st.subheader("At-Risk Students")
+    st.subheader("At-Risk Students")
 
-        if at_risk:
-            st.dataframe(
-                [{"Student": s} for s in at_risk],
-                hide_index=True,
-                uwidth="stretch",
-            )
-        else:
-            st.write("None")
+    if at_risk:
+        st.dataframe(
+            [{"Student": s} for s in at_risk],
+            hide_index=True,
+            uwidth="stretch",
+        )
+    else:
+        st.write("None")

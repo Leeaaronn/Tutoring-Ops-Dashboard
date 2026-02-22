@@ -74,8 +74,7 @@ st.divider()
 # ── Detail section ──────────────────────────────────────────────────────────
 left, right = st.columns(2, gap="large")
 
-with left:
-    with st.container(border=True):
+with left, st.container(border=True):
         st.subheader("Tutor Utilization")
 
         for name, util in util_rows:
@@ -86,15 +85,14 @@ with left:
             with row_right:
                 st.progress(min(int(util * 100), 100))
 
-with right:
-    with st.container(border=True):
+with right, st.container(border=True):
         st.subheader("At-Risk Students")
 
         if at_risk:
             st.dataframe(
                 [{"Student": s} for s in at_risk],
                 hide_index=True,
-                use_container_width=True,
+                uwidth="stretch",
             )
         else:
             st.write("None")

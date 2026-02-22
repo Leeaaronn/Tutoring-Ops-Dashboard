@@ -20,12 +20,25 @@ SUBJECTS = [
 ]
 
 TUTORS = [
-    {"tutor_id": 1, "name": "Tutor_A", "available_hours_per_week": 20.0},
-    {"tutor_id": 2, "name": "Tutor_B", "available_hours_per_week": 20.0},
-    {"tutor_id": 3, "name": "Tutor_C", "available_hours_per_week": 15.0},
+    {"tutor_id": 1, "name": "Mr. Truong", "available_hours_per_week": 20.0},
+    {"tutor_id": 2, "name": "Mrs. Ramirez", "available_hours_per_week": 20.0},
+    {"tutor_id": 3, "name": "Mr. Lin", "available_hours_per_week": 15.0},
 ]
 
-STUDENTS = [{"student_id": i, "name": f"Student_{i:02d}"} for i in range(1, 11)]
+STUDENT_NAMES = [
+    "Victoria L.",
+    "Aaron L.",
+    "Kevin Z.",
+    "Brian N.",
+    "Beverly N.",
+    "Whiskey L.",
+    "Theo L.",
+    "Charlie K.",
+    "Puff D.",
+    "Jeffrey E.",
+]
+
+STUDENTS = [{"student_id": i + 1, "name": name} for i, name in enumerate(STUDENT_NAMES)]
 
 # ── Sessions (40 rows) ─────────────────────────────────────────────────────────
 # Business truths baked in:

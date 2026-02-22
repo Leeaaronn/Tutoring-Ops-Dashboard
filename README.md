@@ -1,196 +1,131 @@
-Tutoring Ops Dashboard
+# Tutoring Ops Dashboard
 
-A full-stack operational analytics system for a private tutoring business.
+[![CI](https://github.com/Leeaaronn/Tutoring-Ops-Dashboard/actions/workflows/ci.yml/badge.svg)](https://github.com/Leeaaronn/Tutoring-Ops-Dashboard/actions/workflows/ci.yml)
 
-This project models a tutoring operation as a relational data system, computes weekly business KPIs via SQL, and exposes them through a lightweight Streamlit dashboard.
+A full-stack operational analytics system for a private tutoring business. Built with SQLite, pure SQL metrics, and Streamlit — no ORMs, no heavy frameworks.
 
-It is intentionally designed with strong data integrity guarantees, clean separation of concerns, and reproducible datasets.
+I built this because I tutor CS to middle school students and saw how much operational data gets lost when everything runs on paper and whiteboards. This project models what a small tutoring center's data infrastructure *should* look like.
 
-Overview
+---
 
-The system answers four core operational questions:
+## What It Answers
 
-What is the attendance rate this week?
+- **What is the attendance rate this week?**
+- **What is the no-show rate by subject?**
+- **Are we over or under staffed?** (tutor utilization)
+- **Which students are at risk?** (progress < 60%)
 
-What is the no-show rate by subject?
+---
 
-Are we over or under staffed (tutor utilization)?
+## Architecture
 
-Which students are at risk due to low progress?
+```
+generate_fake_data.py → CSV files (data/)
+                            ↓
+                      load_sqlite.py → warehouse.db
+                            ↓
+                      metrics.py (pure SQL layer)
+                            ↓
+                      app.py (Streamlit UI)
+```
 
-The architecture separates:
+Each layer has a single responsibility: generation, storage, computation, presentation.
 
-Data generation
+---
 
-Storage layer (SQLite warehouse)
+## Data Model
 
-Metric computation layer (pure SQL)
+Five normalized tables with full relational integrity:
 
-Presentation layer (Streamlit UI)
+| Table | Purpose |
+|-------|---------|
+| `subjects` | Subject catalog |
+| `tutors` | Tutor roster with weekly available hours |
+| `students` | Student enrollment linked to subjects |
+| `sessions` | Individual session records with attendance status |
+| `student_progress` | Weekly progress scores per student |
 
-Architecture
-generate_fake_data.py
-        ↓
-CSV files (data/)
-        ↓
-load_sqlite.py → warehouse.db
-        ↓
-metrics.py (SQL metric layer)
-        ↓
-app.py (Streamlit UI)
-Design Principles
+**Integrity enforced at the database level:** primary keys, foreign keys with `ON DELETE RESTRICT`, `CHECK` constraints on status values and bounded percentages, `UNIQUE` on progress records, and indexed columns for metric queries. Foreign key enforcement is explicitly enabled on every connection.
 
-Deterministic dataset for reproducible metric validation
+---
 
-Relational integrity enforced at the database level
+## Metrics
 
-Pure SQL metric layer (no ORM, no pandas)
+All KPIs are computed in pure SQL with parameterized queries over a rolling weekly window:
 
-Clear separation between storage, logic, and presentation
+| Metric | Query Logic |
+|--------|-------------|
+| Attendance Rate | `attended / total sessions` within week |
+| No-Show Rate | `no_show / total` grouped by subject |
+| Tutor Utilization | `booked_hours / available_hours` per tutor |
+| At-Risk Students | `progress_percent < 60` in current week |
 
-Minimal abstractions; explicit over clever
+**Example output (week of 2024-01-15):**
 
-Data Model
+| KPI | Value |
+|-----|-------|
+| Attendance | 85% |
+| CS No-Show Rate | 10% |
+| High Utilization Tutors | 2 |
+| At-Risk Students | 2 |
 
-Normalized schema with five tables:
+---
 
-subjects
+## Tech Stack
 
-tutors
+| Tool | Role |
+|------|------|
+| Python | Core language |
+| SQLite | Data warehouse |
+| Streamlit | Dashboard UI |
+| Ruff | Linting & formatting |
+| Pytest | Testing with coverage |
+| UV | Dependency management |
+| GitHub Actions | CI pipeline |
 
-students
+---
 
-sessions
+## Running Locally
 
-student_progress
+Requires [uv](https://docs.astral.sh/uv/) and Python 3.12+.
 
-Integrity Guarantees
-
-Primary keys on all entities
-
-Foreign keys with ON DELETE RESTRICT
-
-CHECK constraints for:
-
-valid status values
-
-positive scheduled hours
-
-bounded progress percentage (0–100)
-
-UNIQUE(student_id, week_start) for progress records
-
-Indexed columns for metric queries
-
-Foreign key enforcement is explicitly enabled on every connection.
-
-Metric Layer
-
-All KPIs are computed directly in SQL via parameterized queries:
-
-Average weekly attendance rate
-
-Subject-level no-show rate
-
-Tutor utilization (booked_hours / available_hours)
-
-At-risk students (progress_percent < 60)
-
-Metrics operate over a weekly time window defined as:
-
-session_date >= week_start
-AND session_date < week_start + 7 days
-
-This ensures deterministic, testable weekly aggregation.
-
-Dashboard
-
-The Streamlit UI surfaces:
-
-Avg Attendance Rate
-
-Computer Science No-Show Rate
-
-Tutors >85% Utilization
-
-At-Risk Student Count
-
-Utilization breakdown
-
-At-risk student list
-
-Example week (2024-01-15):
-
-Attendance: 85%
-
-CS No-Show: 10%
-
-High Utilization Tutors: 2
-
-At-Risk Students: 2
-
-Tech Stack
-
-Python
-
-SQLite
-
-Streamlit
-
-Ruff (linting & formatting)
-
-Pytest
-
-UV (dependency management)
-
-No ORMs. No heavy frameworks.
-The focus is correctness, clarity, and layered design.
-
-Running Locally
-
-From repository root:
-
+```bash
 uv sync
 uv run python -m dashboard.data.load_sqlite
 uv run streamlit run src/dashboard/app.py
-Engineering Notes
+```
 
-Database is rebuilt idempotently on load.
+## Development
 
-CSV imports include explicit type coercion.
+```bash
+make lint          # ruff lint check
+make format        # auto-format
+make test          # run tests with coverage
+make test-cov      # tests + HTML coverage report
+```
 
-All SQL is parameterized.
+---
 
-No silent failure paths — missing database surfaces actionable errors.
+## Design Decisions
 
-Linting and formatting enforced via Ruff.
+- **Pure SQL over pandas** — metrics are testable, portable, and don't hide logic behind dataframe operations
+- **Deterministic fake data** — seeded generation ensures reproducible metric validation across environments
+- **Idempotent database loads** — warehouse rebuilds cleanly on every run
+- **No silent failures** — missing database surfaces actionable errors, not empty dashboards
+- **Parameterized queries throughout** — no string concatenation, no injection risk
 
-Future Enhancements
+---
 
-Multi-week trend analysis
+## Future Work
 
-Subject drilldowns
+- Multi-week trend analysis
+- Subject-level drilldowns
+- Deployment to Streamlit Cloud
+- Role-based views (tutor vs. admin)
+- API layer for external consumers
 
-Deployment (Streamlit Cloud)
+---
 
-Role-based views
+## Why This Project
 
-API layer for external consumers
-
-Why This Project Matters
-
-Operational analytics systems are often built incrementally and inconsistently.
-
-This project demonstrates:
-
-Thoughtful schema design
-
-Data integrity enforcement
-
-Deterministic metric validation
-
-Clean service-layer boundaries
-
-Full-stack data application architecture
-
-It reflects how production analytics tooling should be structured — even at small scale.
+Operational analytics at small businesses is usually an afterthought — scattered spreadsheets, manual headcounts, gut-feel decisions. This project demonstrates that even at small scale, you can build a system with thoughtful schema design, enforced data integrity, deterministic metrics, and clean architecture. It reflects how production analytics tooling should be structured.

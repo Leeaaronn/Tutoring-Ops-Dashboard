@@ -5,6 +5,7 @@ description = "Operational dashboard for tutoring business metrics"
 requires-python = ">=3.12"
 dependencies = [
     "streamlit>=1.41.0",
+    "pandas>=2.2.0",
 ]
 
 [project.optional-dependencies]

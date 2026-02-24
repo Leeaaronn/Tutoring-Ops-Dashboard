@@ -6,6 +6,8 @@ A full-stack operational analytics system for a private tutoring business. Built
 
 I built this because I tutor CS to middle school students and saw how much operational data gets lost when everything runs on paper and whiteboards. This project models what a small tutoring center's data infrastructure *should* look like.
 
+<img width="2481" height="945" alt="image" src="https://github.com/user-attachments/assets/95a82a04-3328-46c5-99e9-86cadb5a6bd7" />
+
 ---
 
 ## What It Answers

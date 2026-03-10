@@ -11,7 +11,7 @@ I built this because I tutor CS to middle school students and saw how much opera
 
 👉 **[tutoring-ops-dashboard.streamlit.app](https://tutoring-ops-dashboard-egxejskngaonj77rlauyso.streamlit.app/)**
 
-<img width="2481" height="945" alt="image" src="https://github.com/user-attachments/assets/95a82a04-3328-46c5-99e9-86cadb5a6bd7" />
+![Dashboard](screenshots/dashboard.png)
 
 ---
 

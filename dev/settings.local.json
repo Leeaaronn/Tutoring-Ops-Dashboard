@@ -1,0 +1,41 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C \"C:/Users/leeaa/OneDrive/Desktop/Projects/Tutoring-Ops-Dashboard\" ls-files -o -c)",
+      "Bash(git -C \"C:/Users/leeaa/OneDrive/Desktop/Projects/Tutoring-Ops-Dashboard\" status)",
+      "Bash(git -C \"C:/Users/leeaa/OneDrive/Desktop/Projects/Tutoring-Ops-Dashboard\" log --oneline -10)",
+      "Bash(git -C \"C:/Users/leeaa/OneDrive/Desktop/Projects/Tutoring-Ops-Dashboard\" check-ignore -v .)",
+      "Bash(test:*)",
+      "Bash(uv sync:*)",
+      "Bash(where:*)",
+      "Bash(powershell -Command:*)",
+      "Bash(export PATH=\"$USERPROFILE/.local/bin:$PATH\")",
+      "Bash(uv run ruff:*)",
+      "Bash(echo:*)",
+      "Bash(uv run pytest:*)",
+      "Bash(\"$USERPROFILE/.local/bin/uv.exe\" run ruff check src tests)",
+      "Bash(printf:*)",
+      "Bash(\"$USERPROFILE/.local/bin/uv.exe\" run pytest --no-cov -v)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(gh auth:*)",
+      "Bash(dir:*)",
+      "Bash(git -C \"C:/Users/leeaa/OneDrive/Desktop/Projects/Tutoring-Ops-Dashboard\" ls-files --others --cached --exclude-standard)",
+      "Bash(git -C \"C:/Users/leeaa/OneDrive/Desktop/Projects/Tutoring-Ops-Dashboard\" show HEAD:.claude/claude.md)",
+      "Bash(git -C \"C:/Users/leeaa/OneDrive/Desktop/Projects/Tutoring-Ops-Dashboard\" show HEAD:Makefile)",
+      "Bash(git -C \"C:/Users/leeaa/OneDrive/Desktop/Projects/Tutoring-Ops-Dashboard\" show HEAD:pyproject.toml)",
+      "Bash(git -C \"C:/Users/leeaa/OneDrive/Desktop/Projects/Tutoring-Ops-Dashboard\" show HEAD:README.md)",
+      "Bash(git -C \"C:/Users/leeaa/OneDrive/Desktop/Projects/Tutoring-Ops-Dashboard\" show HEAD:src/dashboard/app.py)",
+      "Bash(git -C \"C:/Users/leeaa/OneDrive/Desktop/Projects/Tutoring-Ops-Dashboard\" show HEAD:tests/test_placeholder.py)",
+      "Bash(git -C \"C:/Users/leeaa/OneDrive/Desktop/Projects/Tutoring-Ops-Dashboard\" show HEAD:.github/workflows/ci.yml)",
+      "Bash(git -C \"C:/Users/leeaa/OneDrive/Desktop/Projects/Tutoring-Ops-Dashboard\" show HEAD:.gitignore)",
+      "Bash(git -C \"C:/Users/leeaa/OneDrive/Desktop/Projects/Tutoring-Ops-Dashboard\" show HEAD:src/dashboard/__init__.py)",
+      "Bash(git -C \"C:/Users/leeaa/OneDrive/Desktop/Projects/Tutoring-Ops-Dashboard\" show HEAD:src/dashboard/pages/__init__.py)",
+      "Bash(git -C \"C:/Users/leeaa/OneDrive/Desktop/Projects/Tutoring-Ops-Dashboard\" show HEAD:tests/__init__.py)",
+      "Bash(git -C \"C:/Users/leeaa/OneDrive/Desktop/Projects/Tutoring-Ops-Dashboard\" status --short)",
+      "Bash(git -C \"C:/Users/leeaa/OneDrive/Desktop/Projects/Tutoring-Ops-Dashboard\" diff --stat HEAD)",
+      "Bash(git -C \"C:/Users/leeaa/OneDrive/Desktop/Projects/Tutoring-Ops-Dashboard\" ls-files:*)"
+    ]
+  }
+}

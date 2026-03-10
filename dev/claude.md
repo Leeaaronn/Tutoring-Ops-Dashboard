@@ -1,0 +1,12 @@
+## Project Guardrails (must follow)
+- Keep code simple and boring. Prefer clarity over cleverness.
+- SQLite-first, but schema should be Postgres-friendly.
+- Fake/anonymized data only. No real student names.
+- Always implement in small steps with verification:
+  - run: uv sync --all-extras
+  - run: make lint
+  - run: make format-check
+  - run: make test
+- If any command fails, STOP and fix before proceeding.
+- Add tests for every “business truth” metric.
+- Do not build Streamlit UI until data model + metrics + tests are complete.
